@@ -24,10 +24,13 @@ jobs:
       - name: Install Android Build Tools
         run: $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0"
 
-      - name: Build APK
+      - name: Generate Gradle Wrapper
         run: |
-          export ANDROID_HOME=$ANDROID_HOME
-          ./gradle assembleDebug
+          gradle wrapper --gradle-version=8.9
+          chmod +x gradlew
+
+      - name: Build APK
+        run: ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
